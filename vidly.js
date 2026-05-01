@@ -2,7 +2,7 @@ const logger = require("./logger");
 const express = require('express');
 const app = express();
 
-require('./startup/logging'); // Extracting Logging Logic
+require('./startup/logging')(); // Extracting Logging Logic
 require('./startup/routes')(app); // Extracting Routes
 require('./startup/db')(); // Extracting Db Logic
 require('./startup/config')(); // Extracting Config Logic

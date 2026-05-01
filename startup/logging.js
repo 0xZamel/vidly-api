@@ -1,6 +1,6 @@
 const winston = require("winston");
 
-module.exports = function (app) {
+module.exports = function () {
     winston.exceptions.handle(
         new winston.transports.Console({
             format: winston.format.combine(
