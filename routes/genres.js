@@ -4,12 +4,13 @@ const router = express.Router();
 const {Genre, validate} =  require("../models/genre");
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+const asyncMiddleware = require('../middleware/async');
 
-
-router.get('/', async (req, res) => {
-    const genres = await Genre.find();
+router.get('/', async (req, res,next) => {
+    throw new Error('Not Found');
+    const genres = await Genre.find().sort('name');
     res.send(genres);
-})
+});
 router.post('/', auth,async (req, res) => {
     if (!req.body) return res.status(400).send('Invalid request body');
     const {error} = validate(req.body);

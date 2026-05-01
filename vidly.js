@@ -1,33 +1,12 @@
-const Joi = require('joi');
-Joi.objectId = require('joi-objectid')(Joi);
+const logger = require("./logger");
 const express = require('express');
-const mongoose = require('mongoose');
-const config = require('config');
-
-const genres = require('./routes/genres');
-const customers = require('./routes/customers');
-const movies = require('./routes/movies');
-const rentals = require('./routes/rentals');
-const user = require('./routes/users');
-const auth = require('./routes/auth');
-
 const app = express();
-app.use(express.json());
 
-if(!config.get('jwtPrivateKey')) {
-    console.error('Missing JWT Private Key');
-    process.exit(1);
-}
-app.use('/api/genres', genres);
-app.use('/api/customers', customers);
-app.use('/api/movies',movies);
-app.use('/api/rentals',rentals);
-app.use('/api/users',user);
-app.use('/api/auth',auth);
+require('./startup/logging'); // Extracting Logging Logic
+require('./startup/routes')(app); // Extracting Routes
+require('./startup/db')(); // Extracting Db Logic
+require('./startup/config')(); // Extracting Config Logic
+require('./startup/validation')(); // Extracting Validation Logic
 
-
-mongoose.connect('mongodb://localhost/vidly')
-.then(() => {console.log('MongoDB Connected');})
-.catch(err => console.error('connection error:'));
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log('Server started on port 3000'));
+app.listen(port, () => logger.info(`Server started on port ${port}...`));
