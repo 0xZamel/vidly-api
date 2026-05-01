@@ -7,7 +7,6 @@ const admin = require('../middleware/admin');
 const asyncMiddleware = require('../middleware/async');
 
 router.get('/', async (req, res,next) => {
-    throw new Error('Not Found');
     const genres = await Genre.find().sort('name');
     res.send(genres);
 });
