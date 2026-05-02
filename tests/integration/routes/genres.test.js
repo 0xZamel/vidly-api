@@ -29,27 +29,33 @@ describe('/api/genres',()=>{
     })
 
     describe('GET /:id', () => {
+        let id;
+        const exec = function (){
+            return request(server)
+                .get('/api/genres/' + id);
+        }
+        beforeEach(async () => {
+            id = new mongoose.Types.ObjectId();
+            await Genre.insertOne({_id:id, name:'genre1'});
+        })
         it('should return a genre if the given id is valid',async ()=>{
-            const genre1 = new Genre({name : 'genre1'});
 
-            await genre1.save();
-
-            const res = await request(server).get(`/api/genres/${genre1._id}`);
-
+            const res = await exec();
             expect(res.status).toBe(200);
-            expect(res.body._id).toBe(genre1._id.toHexString());
-            expect(res.body).toHaveProperty('name', genre1.name);
+            expect(res.body._id).toBe(id.toHexString());
+            expect(res.body).toHaveProperty('name', 'genre1');
         })
 
         it('should return 404 with if the given id is invalid',async ()=>{
-            const res = await request(server).get('/api/genres/1');
+            id = '1';
+            const res = await exec();
 
             expect(res.status).toBe(404);
         })
 
-        it('should return 404 with if no genre with the gived id',async ()=>{
-            const id = new mongoose.Types.ObjectId();
-            const res = await request(server).get('/api/genres/' + id);
+        it('should return 404 with if no genre with the given id',async ()=>{
+            id = new mongoose.Types.ObjectId();
+            const res = await exec();
 
             expect(res.status).toBe(404);
         })
