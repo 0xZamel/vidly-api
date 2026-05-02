@@ -1,10 +1,10 @@
 let server;
-const {User } = require("../../models/user");
+const {User } = require("../../../models/user");
 const request = require("supertest");
-const {Genre} = require("../../models/genre");
+const {Genre} = require("../../../models/genre");
 
 describe("auth middleware", () => {
-    beforeEach(() => {server = require('../../vidly');});
+    beforeEach(() => {server = require('../../../vidly');});
     afterEach(async () => {
         await Genre.deleteMany({});
         await server.close();

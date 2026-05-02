@@ -1,15 +1,16 @@
 let server;
-const {Genre } = require("../../models/genre");
-const {User } = require("../../models/user");
+const {Genre } = require("../../../models/genre");
+const {User } = require("../../../models/user");
 const request = require("supertest");
 const mongoose = require("mongoose");
 
 describe('/api/genres',()=>{
-    beforeEach(() => {server = require('../../vidly');});
+    beforeEach(() => {server = require('../../../vidly');});
     afterEach(async () => {
         await Genre.deleteMany({});
         await server.close();
     });
+
 
 
     describe('GET /', () => {
@@ -30,11 +31,8 @@ describe('/api/genres',()=>{
     describe('GET /:id', () => {
         it('should return a genre if the given id is valid',async ()=>{
             const genre1 = new Genre({name : 'genre1'});
-            const genre2 = new Genre({name : 'genre2'});
 
             await genre1.save();
-            await genre2.save();
-
 
             const res = await request(server).get(`/api/genres/${genre1._id}`);
 
