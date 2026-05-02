@@ -11,3 +11,9 @@ node_modules/
 
 # Logs
 *.log
+logfile.log
+uncaughtException.log
+
+coverage/
+
+

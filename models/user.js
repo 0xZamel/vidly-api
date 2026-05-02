@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
-const user = require("debug");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 

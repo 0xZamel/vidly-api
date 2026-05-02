@@ -9,4 +9,6 @@ require('./startup/config')(); // Extracting Config Logic
 require('./startup/validation')(); // Extracting Validation Logic
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => logger.info(`Server started on port ${port}...`));
+const server = app.listen(port, () => logger.info(`Server started on port ${port}...`));
+
+module.exports = server;
