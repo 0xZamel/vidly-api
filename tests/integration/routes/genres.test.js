@@ -4,6 +4,7 @@ const {User } = require("../../../models/user");
 const request = require("supertest");
 const mongoose = require("mongoose");
 
+
 describe('/api/genres',()=>{
     beforeEach(() => {server = require('../../../vidly');});
     afterEach(async () => {
@@ -133,6 +134,12 @@ describe('/api/genres',()=>{
             expect(res.status).toBe(401);
         })
 
+        it('should return 404 if id is invalid',async ()=>{
+            id = '123';
+            const res = await exec();
+            expect(res.status).toBe(404);
+        })
+
         it('should return 400 if genre is less than 5 characters',async ()=>{
             name = '123';
             const res = await exec();
@@ -169,7 +176,6 @@ describe('/api/genres',()=>{
     })
 
     describe('DELETE /:id', ()=>{
-        let id;
         const exec = ()=>{
             return  request(server)
                 .delete(`/api/genres/${id}`)
