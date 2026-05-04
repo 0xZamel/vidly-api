@@ -1,8 +1,10 @@
 const express = require('express');
-const {Customer,validate} = require('../models/customer');
+const {Customer,validateCustomer} = require('../models/customer');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+const validate = require('../middleware/validate');
+
 const validateObjectId =require('../middleware/validateObjectId');
 
 
@@ -11,11 +13,7 @@ router.get('/', async (req, res) => {
     res.send(customers);
 })
 
-router.post('/', auth,async (req, res) => {
-
-    const {error} = validate(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
-
+router.post('/', [auth,validate(validateCustomer)],async (req, res) => {
     const customer = new Customer({
         name : req.body.name,
         phone : req.body.phone,
@@ -26,10 +24,7 @@ router.post('/', auth,async (req, res) => {
     res.send(customer);
 })
 
-router.put('/:id',[auth,validateObjectId],async (req, res) => {
-    const {error} = validate(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
-
+router.put('/:id',[auth,validateObjectId,validate(validateCustomer)],async (req, res) => {
     const customer = await Customer.findByIdAndUpdate(req.params.id,
         {
             name : req.body.name,
