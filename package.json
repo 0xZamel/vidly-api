@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll --verbose --coverage --runInBand"
+    "test": "jest --watchAll --verbose --coverage --runInBand",
+    "start": "node vidly.js"
+  },
+  "engines": {
+    "node" : "24.11.0"
   },
   "keywords": [],
   "author": "",
